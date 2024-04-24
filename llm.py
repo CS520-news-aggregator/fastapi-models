@@ -1,6 +1,5 @@
 import uuid
-from pydantic import Field
-from annotator.analysis.bundle.models.base_model import BaseModel
+from pydantic import Field, BaseModel
 
 
 class SummaryQuery(BaseModel):
