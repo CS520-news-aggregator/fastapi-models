@@ -8,6 +8,8 @@ class Post(BaseModel):
     source_ids: List[str]
     topics: List[str]
 
+    summary: str = ""
+
     upvotes: int = 0
     downvotes: int = 0
 
