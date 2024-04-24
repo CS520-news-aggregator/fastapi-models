@@ -9,6 +9,6 @@ class SummaryQuery(BaseModel):
 
 
 class Summary(BaseModel):
-    _id: str
+    id: str = Field(default_factory=uuid.uuid4, alias="_id")
     post_id: str
     summary: str
