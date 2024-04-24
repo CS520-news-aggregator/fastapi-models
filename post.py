@@ -9,6 +9,7 @@ class Post(BaseModel):
     topics: List[str]
 
     summary: str = ""
+    title: str = ""
 
     upvotes: int = 0
     downvotes: int = 0
