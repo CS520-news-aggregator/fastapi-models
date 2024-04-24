@@ -4,6 +4,11 @@ from pydantic import Field, BaseModel
 
 class Prompt(BaseModel):
     prompt: str
+    query: str
+
+
+class Response(BaseModel):
+    response: str
 
 
 class PostQuery(BaseModel):
