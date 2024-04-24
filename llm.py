@@ -9,6 +9,6 @@ class SummaryQuery(BaseModel):
 
 
 class Summary(BaseModel):
-    id: str
+    _id: str
     post_id: str
     summary: str
