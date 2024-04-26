@@ -3,7 +3,12 @@ import uuid
 from pydantic import BaseModel, Field
 
 
+class PostRecommendation(BaseModel):
+    post_id: str
+    date: str
+
+
 class Recommendation(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     user_id: str
-    post_ids: List[str]
+    post_ids: List[PostRecommendation]
