@@ -1,8 +1,11 @@
 from pydantic import BaseModel, Field
-import uuid
+
+
+class ScrapeQuery(BaseModel):
+    source_id: str
+    link: str
 
 
 class ScrapeData(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
     source_id: str
-    text: str
+    content: str
