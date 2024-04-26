@@ -11,4 +11,4 @@ class PostRecommendation(BaseModel):
 class Recommendation(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
     user_id: str
-    post_ids: List[PostRecommendation]
+    post_recommendations: List[PostRecommendation]
