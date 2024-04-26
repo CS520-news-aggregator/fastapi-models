@@ -10,6 +10,8 @@ class Post(BaseModel):
 
     summary: str = ""
     title: str = ""
+    media: str = ""
+    date: str = ""
 
     upvotes: int = 0
     downvotes: int = 0
