@@ -2,8 +2,13 @@ from typing import List
 from pydantic import BaseModel
 
 
-class Message(BaseModel):
+class AggregatorMessage(BaseModel):
     source_ids: List[str]
+    message: str
+
+
+class AnnotatorMessage(BaseModel):
+    post_ids: List[str]
     message: str
 
 
