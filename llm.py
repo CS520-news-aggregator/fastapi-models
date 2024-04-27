@@ -18,7 +18,7 @@ class PostQuery(BaseModel):
     text: str
 
 
-class PostsAnalysis(BaseModel):
+class PostsAnalysisQuery(BaseModel):
     post_queries: List[PostQuery]
 
 
