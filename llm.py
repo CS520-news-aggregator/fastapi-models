@@ -28,6 +28,5 @@ class PostCompletion(BaseModel):
 
 
 class PostAnalysis(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
     post_id: str
     completion: PostCompletion
