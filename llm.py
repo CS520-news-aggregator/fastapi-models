@@ -1,3 +1,4 @@
+from typing import List
 import uuid
 from pydantic import Field, BaseModel
 
@@ -13,8 +14,7 @@ class Response(BaseModel):
 
 class PostQuery(BaseModel):
     id: str = Field(default_factory=uuid.uuid4, alias="_id")
-    post_id: str
-    text: str
+    post_ids: List[str]
 
 
 class PostCompletion(BaseModel):
