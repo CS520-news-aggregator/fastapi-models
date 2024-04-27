@@ -2,7 +2,6 @@ from enum import Enum
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 import requests
-from utils.constants import DB_HOST
 
 
 class Response(Enum):
@@ -33,8 +32,8 @@ def subscribe_to_publisher(
     return status
 
 
-def add_data_to_api(endpoint: str, data_model: BaseModel) -> Response:
-    url = f"http://{DB_HOST}:8000/{endpoint}"
+def add_data_to_api(host: str, endpoint: str, data_model: BaseModel) -> Response:
+    url = f"http://{host}/{endpoint}"
     status = Response.SUCCESS
 
     try:
@@ -50,11 +49,11 @@ def add_data_to_api(endpoint: str, data_model: BaseModel) -> Response:
     return status
 
 
-def get_data_from_api(endpoint: str, params: dict = None) -> dict | Response:
+def get_data_from_api(host: str, endpoint: str, params: dict = None) -> dict | Response:
     if params is None:
         params = {}
 
-    url = f"http://{DB_HOST}:8000/{endpoint}"
+    url = f"http://{host}/{endpoint}"
     status = Response.SUCCESS
 
     try:
