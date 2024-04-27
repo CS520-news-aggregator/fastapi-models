@@ -1,13 +1,20 @@
+from enum import Enum
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 import requests
 from utils.constants import DB_HOST
 
 
+class Response(Enum):
+    SUCCESS = 1
+    FAILURE = -1
+
+
 def subscribe_to_publisher(
     subscriber_ip, subscriber_port, publisher_ip, publisher_port
-):
+) -> Response:
     url = f"http://{publisher_ip}:{publisher_port}/observer/subscribe"
+    status = Response.SUCCESS
 
     try:
         response = requests.post(
@@ -15,47 +22,49 @@ def subscribe_to_publisher(
         )
     except requests.exceptions.RequestException as e:
         print("Could not subscribe to publisher", e)
-        return
+        status = Response.FAILURE
 
     if response.status_code == 200:
         print("Subscribed to publisher")
     else:
         print("Failed to subscribe to publisher,", response.json())
+        status = Response.FAILURE
+
+    return status
 
 
-def add_data_to_db(endpoint: str, data_model: BaseModel) -> int | str:
-    db_url = f"http://{DB_HOST}:8000/{endpoint}"
-    encountered_error = False
+def add_data_to_api(endpoint: str, data_model: BaseModel) -> Response:
+    url = f"http://{DB_HOST}:8000/{endpoint}"
+    status = Response.SUCCESS
 
     try:
-        response = requests.post(db_url, json=jsonable_encoder(data_model), timeout=5)
+        response = requests.post(url, json=jsonable_encoder(data_model), timeout=5)
     except requests.exceptions.RequestException:
-        print(f"Could not send data to database service due to timeout")
-        encountered_error = True
+        print(f"Could not send data to service due to timeout")
+        status = Response.FAILURE
     else:
         if response.status_code != 200:
-            print(f"Received status code {response.status_code} from database service")
-            encountered_error = True
+            print(f"Received status code {response.status_code} from service")
+            status = Response.FAILURE
 
-    return -1 if encountered_error else "Successfully added data to database"
+    return status
 
 
-def get_data_from_db(endpoint: str, params: dict = None):
+def get_data_from_api(endpoint: str, params: dict = None) -> dict | Response:
     if params is None:
         params = {}
 
-    db_url = f"http://{DB_HOST}:8000/{endpoint}"
-    encountered_error = False
+    url = f"http://{DB_HOST}:8000/{endpoint}"
+    status = Response.SUCCESS
 
     try:
-        response = requests.get(db_url, params=params, timeout=5)
+        response = requests.get(url, params=params, timeout=5)
     except requests.exceptions.RequestException:
-        print(f"Could not get data from database service due to timeout")
-        encountered_error = True
+        print(f"Could not get data from service due to timeout")
+        status = Response.FAILURE
     else:
         if response.status_code != 200:
-            print(f"Received status code {response.status_code} from database service")
-            encountered_error = True
+            print(f"Received status code {response.status_code} from service")
+            status = Response.FAILURE
 
-    resp_json = response.json() if not encountered_error else None
-    return resp_json if not encountered_error else None
+    return response.json() if status == Response.SUCCESS else Response.FAILURE
