@@ -23,7 +23,6 @@ class PostsAnalysisQuery(BaseModel):
 
 
 class PostCompletion(BaseModel):
-    id: str = Field(default_factory=uuid.uuid4, alias="_id")
     title: str = Field(description="title of the news event")
     summary: str = Field(description="summary of the news event")
 
