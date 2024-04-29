@@ -13,6 +13,6 @@ class PostRecommendation(BaseModel):
 
 
 class Recommendation(BaseModel):
-    id: str = Field(lambda: str(uuid.uuid4()), alias="_id")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
     user_id: str
     post_recommendations: List[PostRecommendation]

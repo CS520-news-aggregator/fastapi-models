@@ -5,7 +5,7 @@ from pydantic import BaseModel, EmailStr, Field, field_validator
 
 
 class Token(BaseModel):
-    id: str = Field(lambda: str(uuid.uuid4()), alias="_id")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
     user_id: str
     token: str
 
@@ -20,7 +20,7 @@ class Token(BaseModel):
 
 
 class UserVotes(BaseModel):
-    id: str = Field(lambda: str(uuid.uuid4()), alias="_id")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
     user_id: str
 
     list_of_posts_upvotes: List[str] = []
@@ -43,7 +43,7 @@ class UserVotes(BaseModel):
 
 
 class RegisterUser(BaseModel):
-    id: str = Field(lambda: str(uuid.uuid4()), alias="_id")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
     email_address: EmailStr
     password: str
     username: str
@@ -89,7 +89,7 @@ class LoginUser(BaseModel):
 
 
 class Preferences(BaseModel):
-    id: str = Field(lambda: str(uuid.uuid4()), alias="_id")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
     preferences: List[str]
 
     class Config:

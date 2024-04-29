@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 
 
 class Post(BaseModel):
-    id: str = Field(lambda: str(uuid.uuid4()), alias="_id")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
     source_ids: List[str]
     topics: List[str]
 
@@ -24,7 +24,7 @@ class Post(BaseModel):
 
 
 class Comment(BaseModel):
-    id: str = Field(lambda: str(uuid.uuid4()), alias="_id")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
     content: str
     post_id: str
 
