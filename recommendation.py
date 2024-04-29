@@ -8,11 +8,7 @@ class RecommendationQuery(BaseModel):
 
 
 class PostRecommendation(BaseModel):
-    post_id: str
-    date: str
-
-
-class Recommendation(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
-    user_id: str
-    post_recommendations: List[PostRecommendation]
+    post_id: str
+    topics: List[str]
+    date: str
