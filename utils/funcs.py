@@ -37,7 +37,7 @@ def add_data_to_api(host: str, endpoint: str, data_model: BaseModel) -> Response
     status = Response.SUCCESS
 
     try:
-        response = requests.post(url, json=jsonable_encoder(data_model), timeout=5)
+        response = requests.post(url, json=jsonable_encoder(data_model), timeout=15)
     except requests.exceptions.RequestException:
         print(f"Could not send data to service due to timeout")
         status = Response.FAILURE
@@ -57,7 +57,7 @@ def get_data_from_api(host: str, endpoint: str, params: dict = None) -> dict | R
     status = Response.SUCCESS
 
     try:
-        response = requests.get(url, params=params, timeout=5)
+        response = requests.get(url, params=params, timeout=15)
     except requests.exceptions.RequestException:
         print(f"Could not get data from service due to timeout")
         status = Response.FAILURE
