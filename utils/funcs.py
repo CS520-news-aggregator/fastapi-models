@@ -49,7 +49,9 @@ def add_data_to_api(host: str, endpoint: str, data_model: BaseModel) -> Response
     return status
 
 
-def get_data_from_api(host: str, endpoint: str, params: dict = None) -> dict | Response:
+def get_data_from_api(
+    host: str, endpoint: str, params: dict | BaseModel = None
+) -> dict | Response:
     if params is None:
         params = {}
 
@@ -57,7 +59,7 @@ def get_data_from_api(host: str, endpoint: str, params: dict = None) -> dict | R
     status = Response.SUCCESS
 
     try:
-        response = requests.get(url, params=params, timeout=15)
+        response = requests.get(url, params=jsonable_encoder(params), timeout=15)
     except requests.exceptions.RequestException:
         print(f"Could not get data from service due to timeout")
         status = Response.FAILURE
