@@ -29,3 +29,5 @@ LIST_TOPICS = [
     "Hobbies & Interests",
     "Social Issues",
 ]
+
+LAPLACE_CONSTANT = 0.5
