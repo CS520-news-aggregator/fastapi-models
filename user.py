@@ -42,6 +42,28 @@ class UserVotes(BaseModel):
         }
 
 
+def check_pwd(pwd):
+    re_for_pwd: re.Pattern[str] = re.compile(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$")
+    if not re_for_pwd.match(pwd):
+        raise ValueError(
+            "Invalid password - must contain at least 1 letter and 1 number and"
+            "be at least 5 characters long"
+        )
+    return pwd
+
+
+class UpdateUser(BaseModel):
+    email_address: EmailStr = None
+    password: str = None
+    username: str = None
+    avatar: int = None
+
+    @field_validator("password")
+    @classmethod
+    def regex_match(cls, pwd: str) -> str:
+        return check_pwd(pwd)
+
+
 class RegisterUser(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()), alias="_id")
     email_address: EmailStr
@@ -52,15 +74,7 @@ class RegisterUser(BaseModel):
     @field_validator("password")
     @classmethod
     def regex_match(cls, pwd: str) -> str:
-        re_for_pwd: re.Pattern[str] = re.compile(
-            r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
-        )
-        if not re_for_pwd.match(pwd):
-            raise ValueError(
-                "Invalid password - must contain at least 1 letter and 1 number and"
-                "be at least 8 characters long"
-            )
-        return pwd
+        return check_pwd(pwd)
 
     class Config:
         populate_by_name = True
