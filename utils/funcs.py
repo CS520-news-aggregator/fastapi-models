@@ -9,19 +9,16 @@ class Response(Enum):
     FAILURE = -1
 
 
-def subscribe_to_publisher(
-    subscriber_ip, subscriber_port, publisher_ip, publisher_port
-) -> Response:
+def subscribe_to_publisher(subscriber_ip, subscriber_port, publisher_ip, publisher_port) -> Response:
     url = f"http://{publisher_ip}:{publisher_port}/observer/subscribe"
     status = Response.SUCCESS
 
     try:
-        response = requests.post(
-            url, json={"ip_address": subscriber_ip, "port": subscriber_port}, timeout=5
-        )
+        response = requests.post(url, json={"ip_address": subscriber_ip, "port": subscriber_port}, timeout=5)
     except requests.exceptions.RequestException as e:
         print("Could not subscribe to publisher", e)
         status = Response.FAILURE
+        return status
 
     if response.status_code == 200:
         print("Subscribed to publisher")
@@ -49,9 +46,7 @@ def add_data_to_api(host: str, endpoint: str, data_model: BaseModel) -> Response
     return status
 
 
-def get_data_from_api(
-    host: str, endpoint: str, params: dict | BaseModel = None
-) -> dict | Response:
+def get_data_from_api(host: str, endpoint: str, params: dict | BaseModel = None) -> dict | Response:
     if params is None:
         params = {}
 
