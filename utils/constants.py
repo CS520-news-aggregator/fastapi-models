@@ -30,3 +30,5 @@ LIST_TOPICS = [
     "Hobbies & Interests",
     "Social Issues",
 ]
+
+DT_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
