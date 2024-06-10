@@ -1,10 +1,6 @@
-from typing import List, Dict
+from typing import List
 import uuid
 from pydantic import BaseModel, Field
-
-
-class UserRecommendationQuery(BaseModel):
-    user_id: str
 
 
 class UserRecommendation(BaseModel):
